@@ -1,6 +1,5 @@
 import { sql } from '@vercel/postgres';
 import {
-  User,
   Story,
   Square
 } from './definitions';
