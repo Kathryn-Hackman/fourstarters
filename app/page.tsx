@@ -6,12 +6,12 @@ import DarkModeToggle from "./components/DarkModeToggle";
 
 export default function Home() {
   const [ count, setCount ] = useState(0)
-  let today = new Date()
-  let dd = String(today.getDate()).padStart(2, '0');
-  let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-  let yyyy = today.getFullYear();
+  const today = new Date()
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  const yyyy = today.getFullYear();
 
-  let todayKey = mm + '-' + dd + '-' + yyyy;
+  const todayKey = mm + '-' + dd + '-' + yyyy;
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
