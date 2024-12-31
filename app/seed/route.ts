@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { db } from '@vercel/postgres';
-import { stories, squares, users } from '../lib/placeholder-data';
+import { stories, users } from '../lib/placeholder-data';
 
 const client = await db.connect();
 
@@ -54,49 +54,49 @@ async function seedStories() {
   return insertedStories;
 }
 
-async function seedSquares() {
-  await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+// async function seedSquares() {
+//   await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS squares (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      user_id_1 VARCHAR(255) NOT NULL,
-      user_id_2 VARCHAR(255) NOT NULL,
-      user_id_3 VARCHAR(255) NOT NULL,
-      user_id_4 VARCHAR(255) NOT NULL,
-      square_story_text_1 VARCHAR(250),
-      square_story_text_2 VARCHAR(250),
-      square_story_text_3 VARCHAR(250),
-      square_story_text_4 VARCHAR(250),
-      date DATE NOT NULL,
-      status: VARCHAR(255) NOT NULL
-    );
-  `;
+//   await client.sql`
+//     CREATE TABLE IF NOT EXISTS squares (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       user_id_1 VARCHAR(255) NOT NULL,
+//       user_id_2 VARCHAR(255) NOT NULL,
+//       user_id_3 VARCHAR(255) NOT NULL,
+//       user_id_4 VARCHAR(255) NOT NULL,
+//       square_story_text_1 VARCHAR(250),
+//       square_story_text_2 VARCHAR(250),
+//       square_story_text_3 VARCHAR(250),
+//       square_story_text_4 VARCHAR(250),
+//       date DATE NOT NULL,
+//       status: VARCHAR(255) NOT NULL
+//     );
+//   `;
 
-  const insertedSquares = await Promise.all(
-    squares.map(
-      (square) => client.sql`
-        INSERT INTO squares (id, name, email, image_url)
-        VALUES (${square.id}, ${square.name}, ${square.email}, ${square.image_url})
-        ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
-  );
+//   const insertedSquares = await Promise.all(
+//     squares.map(
+//       (square) => client.sql`
+//         INSERT INTO squares (id, name, email, image_url)
+//         VALUES (${square.id}, ${square.name}, ${square.email}, ${square.image_url})
+//         ON CONFLICT (id) DO NOTHING;
+//       `,
+//     ),
+//   );
 
-  return insertedSquares;
-}
+//   return insertedSquares;
+// }
 
 export async function GET() {
     try {
       await client.sql`BEGIN`;
       await seedUsers();
       await seedStories();
-      await seedSquares();
+      // await seedSquares();
       await client.sql`COMMIT`;
-  
-      return Response.json({ message: 'Database seeded successfully' });
+      console.log('DB seeded successfully.')
+      return Response;
     } catch (error) {
       await client.sql`ROLLBACK`;
-      return Response.json({ error }, { status: 500 });
+      return Response;
     }
   }
