@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { db } from '@vercel/postgres';
 import { stories, users } from '../lib/placeholder-data';
+import { NextResponse } from 'next/server';
 
 const client = await db.connect();
 
@@ -93,11 +94,10 @@ export async function GET() {
       await seedStories();
       // await seedSquares();
       await client.sql`COMMIT`;
-      console.log('DB seeded successfully.')
-      return Response;
+  
+      return NextResponse.json({ message: 'Database seeded successfully' });
     } catch (error) {
       await client.sql`ROLLBACK`;
-      console.log('Error: ', error)
-      return Response;
+      return NextResponse.json({ error }, { status: 500 });
     }
   }
