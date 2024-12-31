@@ -97,6 +97,7 @@ export async function GET() {
       return Response;
     } catch (error) {
       await client.sql`ROLLBACK`;
+      console.log('Error: ', error)
       return Response;
     }
   }
